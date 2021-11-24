@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+    jwt-auth-example-app:
+        container_name: jwt-auth-example-app
+        image: jwt-auth-example
+        restart: always
+        ports:
+            - $PORT:$PORT
+        depends_on:
+            - jwt-auth-example-db
+        links:
+            - jwt-auth-example-db
+    jwt-auth-example-db:
+        container_name: jwt-auth-example-db
+        image: mongo
+        restart: unless-stopped
+        command: mongod --port 9001
+        ports:
+            - 9001:9001
+        volumes:
+            - mongodb:/data/db
+
+volumes:
+    mongodb:
